@@ -1,25 +1,25 @@
-"use strict";
+'use strict';
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert(
-      "musicExamples",
+      "joinTableMusicExamples",
       [
         {
-          title: "Slow Dancing in a Burning Room",
-          url: "https://www.youtube.com/watch?v=32GZ3suxRn4",
+          userId: 1,
+          musicExampleId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          title: "Take Me Home, Country Roads",
-          url: "https://www.youtube.com/watch?v=1vrEljMfXYo",
+          userId: 2,
+          musicExampleId: 3,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          title: "Clarinet Concerto in A - 2nd movement",
-          url: "https://www.youtube.com/watch?v=BxgmorK61YQ",
+          userId: 1,
+          musicExampleId: 2,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -29,6 +29,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete("musicExamples", null, {});
+    await queryInterface.bulkDelete("joinTableMusicExamples", null, {});
   },
 };

@@ -1,67 +1,61 @@
-"use strict";
+'use strict';
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert(
-      "instruments",
+      "joinTableInstruments",
       [
         {
-          title: "Piano",
+          userId: 1,
+          instrumentId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          title: "Guitar",
+          userId: 1,
+          instrumentId: 4,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          title: "Drums",
+          userId: 1,
+          instrumentId: 7,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          title: "Voice",
+          userId: 2,
+          instrumentId: 2,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          title: "Bass",
+          userId: 2,
+          instrumentId: 5,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          title: "Saxophone",
+          userId: 2,
+          instrumentId: 8,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          title: "Trumpet",
+          userId: 3,
+          instrumentId: 3,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          title: "Clarinet",
+          userId: 3,
+          instrumentId: 6,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          title: "Flute",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          title: "Violin",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          title: "Cello",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          title: "Double Bass",
+          userId: 3,
+          instrumentId: 9,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -71,6 +65,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete("instruments", null, {});
-  },
+    await queryInterface.bulkDelete("joinTableInstruments", null, {});
+  }
 };

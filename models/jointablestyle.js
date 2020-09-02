@@ -3,24 +3,23 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class style extends Model {
+  class joinTableStyle extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      style.belongsToMany(models.user, {
-        through: "joinTableStyle",
-        foreignKey: "styleId"
-      });
+      joinTableStyle.belongsTo(models.style);
+      joinTableStyle.belongsTo(models.user);
     }
   };
-  style.init({
-    title: DataTypes.STRING
+  joinTableStyle.init({
+    styleId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'style',
+    modelName: 'joinTableStyle',
   });
-  return style;
+  return joinTableStyle;
 };
