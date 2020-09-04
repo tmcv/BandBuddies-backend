@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         through: "joinTableInstrument",
         foreignKey: "instrumentId"
       });
+
+      instrument.belongsToMany(models.listing, {
+        through: "joinTableListingInstrument",
+        foreignKey: "instrumentId"
+      });
     }
   };
   instrument.init({

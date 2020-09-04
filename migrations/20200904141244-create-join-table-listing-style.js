@@ -1,26 +1,26 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('joinTableMusicExamples', {
+    await queryInterface.createTable('joinTableListingStyles', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      musicExampleId: {
+      listingId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "musicExamples",
+          model: "listings",
           key: "id"
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE"
       },
-      userId: {
+      styleId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "users",
+          model: "styles",
           key: "id"
         },
         onUpdate: "CASCADE",
@@ -37,6 +37,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('joinTableMusicExamples');
+    await queryInterface.dropTable('joinTableListingStyles');
   }
 };
