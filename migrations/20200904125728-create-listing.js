@@ -14,6 +14,9 @@ module.exports = {
       minimumLevel: {
         type: Sequelize.INTEGER
       },
+      isBand: {
+        type: Sequelize.BOOLEAN
+      },
       description: {
         type: Sequelize.TEXT
       },

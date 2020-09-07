@@ -26,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
   listing.init({
     title: DataTypes.STRING,
     minimumLevel: DataTypes.INTEGER,
-    description: DataTypes.TEXT,
+    isBand: DataTypes.BOOLEAN,
+    description: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'listing',
