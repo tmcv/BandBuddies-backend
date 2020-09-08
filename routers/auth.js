@@ -38,8 +38,9 @@ router.post("/login", async (req, res, next) => {
 });
 
 router.post("/signup", async (req, res) => {
-  const { username, email, password, name, isBand, level } = req.body;
-  if (!username || !email || !password || !name || !isBand || !level) {
+  const { username, email, password, name, isBand, level, style } = req.body;
+  console.log("BODY", req.body)
+  if (!username || !email || !password || !name || typeof isBand !== "boolean" || !level || !style) {
     return res.status(400).send("Please provide details for every category");
   }
   
@@ -50,14 +51,21 @@ router.post("/signup", async (req, res) => {
       password: bcrypt.hashSync(password, SALT_ROUNDS),
       name,
       isBand,
-      level
+      level,
     });
+
+    const newStyleJoin = await StylesJoinTable.create({
+      styleId: style,
+      userId: newUser.id
+    })
+
+    const assignedStyle = await Style.findOne({where: {id: newStyleJoin.styleId}})
 
     delete newUser.dataValues["password"]; // don't send back the password hash
 
     const token = toJWT({ userId: newUser.id });
 
-    res.status(201).json({ token, ...newUser.dataValues });
+    res.status(201).json({ token, ...newUser.dataValues, styles: [assignedStyle] });
   } catch (error) {
     if (error.name === "SequelizeUniqueConstraintError") {
       return res
