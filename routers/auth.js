@@ -3,6 +3,10 @@ const { Router } = require("express");
 const { toJWT } = require("../auth/jwt");
 const authMiddleware = require("../auth/middleware");
 const User = require("../models/").user;
+const InstrumentsJoinTable = require("../models").joinTableInstrument;
+const Instrument = require("../models").instrument;
+const StylesJoinTable = require("../models").joinTableStyle;
+const Style = require("../models").style;
 const { SALT_ROUNDS } = require("../config/constants");
 const router = new Router();
 
@@ -71,7 +75,21 @@ router.post("/signup", async (req, res) => {
 router.get("/me", authMiddleware, async (req, res) => {
   // don't send back the password hash
   delete req.user.dataValues["password"];
-  res.status(200).send({ ...req.user.dataValues });
+
+  const instrumentJoinsList = await InstrumentsJoinTable.findAll({ where: { userId: req.user.id } })
+  const instruments = await Promise.all(instrumentJoinsList.map(async instrumentJoin => {
+    const instrument = await Instrument.findOne({where: {id: instrumentJoin.instrumentId}})
+    return instrument
+  }))
+
+  const styleJoinsList = await StylesJoinTable.findAll({ where: { userId: req.user.id } })
+  const styles = await Promise.all(styleJoinsList.map(async styleJoin => {
+    const style = await Style.findOne({where: {id: styleJoin.styleId}})
+    return style
+  }))
+  console.log(instruments)
+
+  res.status(200).send({ ...req.user.dataValues, instruments, styles });
 });
 
 module.exports = router;

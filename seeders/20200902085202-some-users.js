@@ -8,7 +8,7 @@ module.exports = {
         {
           username: "test",
           email: "test@test.com",
-          password: "test",
+          password: "$2b$10$zTzqlv197jjamTbcQ3J60ervPMwNiij80p/8PWT28hkE4.hEeXXDm",
           name: "Test",
           isBand: true,
           level: 2,
@@ -18,7 +18,7 @@ module.exports = {
         {
           username: "tom",
           email: "tom@tom.com",
-          password: "tom",
+          password: "$2b$10$E7aKZIGE1Yhp.x5nlR7R/e/UJGol5rcg21ArT5gfbYHIJyXnY6Jam",
           name: "Tom",
           isBand: false,
           level: 4,
@@ -28,7 +28,7 @@ module.exports = {
         {
           username: "koen",
           email: "koen@koen.com",
-          password: "koen",
+          password: "$2b$10$wI9D0npiMQfxlWJMMMwR/uqgSGkLaKnPM9vg0MDNqW0O9GBHyJv5e",
           name: "Koen",
           isBand: false,
           level: 3,
