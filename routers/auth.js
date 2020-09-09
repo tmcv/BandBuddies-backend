@@ -38,7 +38,7 @@ router.post("/login", async (req, res, next) => {
 });
 
 router.post("/signup", async (req, res) => {
-  const { username, email, password, name, isBand, level, style } = req.body;
+  const { username, email, password, name, isBand, level, style, instrument } = req.body;
   console.log("BODY", req.body)
   if (!username || !email || !password || !name || typeof isBand !== "boolean" || !level || !style) {
     return res.status(400).send("Please provide details for every category");
@@ -59,13 +59,20 @@ router.post("/signup", async (req, res) => {
       userId: newUser.id
     })
 
+    const newInstrumentJoin = await InstrumentsJoinTable.create({
+      instrumentId: instrument,
+      userId: newUser.id
+    })
+
     const assignedStyle = await Style.findOne({where: {id: newStyleJoin.styleId}})
+
+    const assignedInstrument = await Instrument.findOne({where: {id: newInstrumentJoin.instrumentId}})
 
     delete newUser.dataValues["password"]; // don't send back the password hash
 
     const token = toJWT({ userId: newUser.id });
 
-    res.status(201).json({ token, ...newUser.dataValues, styles: [assignedStyle] });
+    res.status(201).json({ token, ...newUser.dataValues, styles: [assignedStyle], style: [assignedInstrument] });
   } catch (error) {
     if (error.name === "SequelizeUniqueConstraintError") {
       return res
