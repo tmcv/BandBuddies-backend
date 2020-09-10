@@ -6,6 +6,11 @@ module.exports = {
       "instruments",
       [
         {
+          title: "Not Specified",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
           title: "Piano",
           createdAt: new Date(),
           updatedAt: new Date(),

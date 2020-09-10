@@ -22,6 +22,16 @@ router.post("/login", async (req, res, next) => {
 
     const user = await User.findOne({ where: { email } });
 
+    const userStyleJoin = await StylesJoinTable.findOne({ where: {userId: user.id}
+    })
+
+    const userInstrumentJoin = await InstrumentsJoinTable.findOne({ where: {userId: user.id}
+    })
+
+    const userStyles = await Style.findAll({where: {id: userStyleJoin.styleId}})
+
+    const userInstruments = await Instrument.findAll({where: {id: userInstrumentJoin.instrumentId}})
+
     if (!user || !bcrypt.compareSync(password, user.password)) {
       return res.status(400).send({
         message: "User with that email not found or password incorrect"
@@ -30,7 +40,8 @@ router.post("/login", async (req, res, next) => {
 
     delete user.dataValues["password"]; // don't send back the password hash
     const token = toJWT({ userId: user.id });
-    return res.status(200).send({ token, ...user.dataValues });
+    return res.status(200).send({ token, ...user.dataValues, styles: [userStyles], instruments: [userInstruments] });
+
   } catch (error) {
     console.log(error);
     return res.status(400).send({ message: "Something went wrong, sorry" });
@@ -72,7 +83,8 @@ router.post("/signup", async (req, res) => {
 
     const token = toJWT({ userId: newUser.id });
 
-    res.status(201).json({ token, ...newUser.dataValues, styles: [assignedStyle], style: [assignedInstrument] });
+    res.status(201).json({ token, ...newUser.dataValues, styles: [assignedStyle], instruments: [assignedInstrument] });
+  
   } catch (error) {
     if (error.name === "SequelizeUniqueConstraintError") {
       return res
