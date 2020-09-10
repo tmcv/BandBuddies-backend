@@ -3,6 +3,7 @@ const loggerMiddleWare = require("morgan");
 const corsMiddleWare = require("cors");
 const { PORT } = require("./config/constants");
 const authRouter = require("./routers/auth");
+const mailRouter = require("./routers/mail");
 const listingsRouter = require("./routers/listings");
 const instrumentsRouter = require("./routers/instruments");
 const stylesRouter = require("./routers/styles");
@@ -157,6 +158,7 @@ app.use("/", authRouter);
 app.use("/listings", listingsRouter);
 app.use("/instruments", instrumentsRouter);
 app.use("/styles", stylesRouter);
+app.use("/mail", mailRouter);
 
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
