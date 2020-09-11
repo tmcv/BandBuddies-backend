@@ -8,6 +8,8 @@ const listingsRouter = require("./routers/listings");
 const instrumentsRouter = require("./routers/instruments");
 const stylesRouter = require("./routers/styles");
 const authMiddleWare = require("./auth/middleware");
+const cors = require("cors");
+
 
 const app = express();
 
@@ -18,6 +20,7 @@ const app = express();
  * If you configure routes before the middleware, these routes will not use them
  *
  */
+app.use(cors());
 
 /**
  * morgan:
