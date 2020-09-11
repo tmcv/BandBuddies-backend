@@ -51,22 +51,29 @@ router.post("/", auth, async (req, res) => {
 router.get("/", async (req, res) => {
   const limit = req.query.limit || 10;
   const offset = req.query.offset || 0;
-  const listings = await Listing.findAndCountAll({
-    limit,
-    offset,
-    order: [["createdAt", "DESC"]]
-  });
+  
+  try {
+    const listings = await Listing.findAndCountAll({
+      limit,
+      offset,
+      order: [["createdAt", "DESC"]]
+    });
+    
+    const listingsWithInstruments = await Promise.all(listings.rows.map(async listing => {
+      const listingInstrumentsJoinsList = await ListingInstrumentsJoinTable.findAll({ where: { listingId: listing.id } })
+      const instrumentIds = listingInstrumentsJoinsList.map(listingInstrumentJoin => listingInstrumentJoin.instrumentId)
+      return {
+        ...listing.dataValues, 
+        instruments: instrumentIds
+      }
+    }))
+    res.status(200).send({ message: "ok", listings: {...listings, rows: listingsWithInstruments} });
+  } catch (error) {
+    console.log("ERROOOOOORRRRRR", error)
+    res.status(500).send({ message: error})
+  }
 
-  const listingsWithInstruments = await Promise.all(listings.rows.map(async listing => {
-    const listingInstrumentsJoinsList = await ListingInstrumentsJoinTable.findAll({ where: { listingId: listing.id } })
-    const instrumentIds = listingInstrumentsJoinsList.map(listingInstrumentJoin => listingInstrumentJoin.instrumentId)
-    return {
-      ...listing.dataValues, 
-      instruments: instrumentIds
-    }
-  }))
-
-  res.status(200).send({ message: "ok", listings: {...listings, rows: listingsWithInstruments} });
+  
 });
 
 router.get("/:id", async (req, res) => {
